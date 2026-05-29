@@ -1,0 +1,44 @@
+Save the file bookstore.xml in xml-xtd-xsd folder. 
+<?xml version="1.0" encoding="UTF-8"?> 
+<bookstore xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+           xsi:noNamespaceSchemaLocation="bookstore.xsd"> 
+ 
+  <book> 
+    <title>Learning JavaScript</title> 
+    <author>John Doe</author> 
+    <price>450</price> 
+  </book> 
+ 
+  <book> 
+    <title>Mastering AI</title> 
+    <author>Jane Smith</author> 
+    <price>600</price> 
+  </book> 
+ 
+</bookstore>
+
+Save the file bookstore.dtd in xml-xtd-xsd folder. 
+<!ELEMENT bookstore (book+)> 
+<!ELEMENT book (title, author, price)> 
+<!ELEMENT title (#PCDATA)> 
+<!ELEMENT author (#PCDATA)> 
+<!ELEMENT price (#PCDATA)> 
+Save the file bookstore.xsd in xml-xtd-xsd folder. 
+<?xml version="1.0" encoding="UTF-8"?> 
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"> 
+  <xs:element name="bookstore"> 
+    <xs:complexType> 
+      <xs:sequence> 
+        <xs:element name="book" maxOccurs="unbounded"> 
+          <xs:complexType> 
+            <xs:sequence> 
+              <xs:element name="title" type="xs:string"/> 
+              <xs:element name="author" type="xs:string"/> 
+              <xs:element name="price" type="xs:decimal"/> 
+            </xs:sequence> 
+          </xs:complexType> 
+        </xs:element> 
+      </xs:sequence> 
+    </xs:complexType> 
+  </xs:element> 
+</xs:schema> 
