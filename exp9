@@ -1,0 +1,53 @@
+Initialize Project in VS Code terminal (Command Prompt (Default)), 
+//Verify node.js and npm version 
+> node –v 
+> npm –v 
+>mkdir node-server 
+>cd node-server 
+>npm init -y   # creates package.json 
+2. Create the server.js in the folder node-server: 
+// Import core modules 
+const http = require('http'); 
+const os = require('os'); 
+const path = require('path'); 
+const EventEmitter = require('events'); 
+// Create an event emitter 
+const emitter = new EventEmitter(); 
+// Define a custom event 
+emitter.on('serverStart', () => { 
+console.log('Custom event: Server has started!'); 
+}); 
+// Create HTTP server 
+const server = http.createServer((req, res) => { 
+if (req.url === '/info') { 
+// Use OS module 
+res.writeHead(200, { 'Content-Type': 'application/json' }); 
+res.end(JSON.stringify({ 
+os: os.type(), 
+platform: os.platform(), 
+arch: os.arch(), 
+memory: `${os.freemem()} free of ${os.totalmem()}` 
+})); 
+} else if (req.url === '/path') { 
+// Use Path module 
+const filePath = '/users/saravan/project/server.js'; 
+res.writeHead(200, { 'Content-Type': 'text/plain' }); 
+res.end(`Base: ${path.basename(filePath)}\nDir: ${path.dirname(filePath)}\nExt: 
+${path.extname(filePath)}`); 
+} else { 
+res.writeHead(200, { 'Content-Type': 'text/html' }); 
+res.end(` 
+<h2>Welcome to the custom Node.js server!</h2> 
+<p>Try these endpoints:</p> 
+<ul> 
+<li><a href="/info">/info</a> → System info (OS, memory)</li> 
+<li><a href="/path">/path</a> → Path details</li> 
+</ul> 
+`); 
+} 
+}); 
+// Start server 
+server.listen(3000, () => { 
+emitter.emit('serverStart'); // Trigger custom event 
+console.log('Server running at http://localhost:3000/'); 
+});
